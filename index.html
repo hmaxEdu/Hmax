@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STEM Academy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+  
+     <script type="text/javascript" src="https://npmcdn.com/parse/dist/parse.min.js"></script>
+</head>
+<body ondblclick="window.localStorage.removeItem('registryData')">
+    <div class="container">
+        <!-- Content Sections -->
+        <div id="home" class="content-section active-section">
+            <div class="home-header">
+                <div class="greeting">
+                    <h1 id="logo">Hmax</h1>
+                    
+                </div>
+                <div id="username-icon-header">
+                    <p id="usernameDisplay">قم بتسجيل الدخول</p>
+                <div class="profile-icon" onclick="switchTab('account'); $('.nav-item').trigger('click');">
+                    <span class="material-icons">person</span>
+                </div>
+                  
+                </div>
+            </div>
+
+            <div class="course-categories">
+                <div class="category-card">
+                    <span class="material-icons">science</span>
+                    <h3>الرياضيات</h3>
+                </div>
+                <div class="category-card">
+                    <span class="material-icons">biotech</span>
+                    <h3>الفيزياء</h3>
+                </div>
+                <div class="category-card">
+                    <span class="material-icons">memory</span>
+                    <h3>الحاسوب</h3>
+                </div>
+                <div class="category-card">
+                    <span class="material-icons">engineering</span>
+                    <h3>الهندسة</h3>
+                </div>
+            </div>
+
+            <h2>دوراتي الحالية</h2>
+            <div class="course-card">
+                <h3>حساب التفاضل والتكامل</h3>
+                <p>البروفيسور محمد علي</p>
+                <div class="progress-bar">
+                    <div class="progress" style="width: 65%"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="courses" class="content-section">
+            <!-- My Courses Content -->
+        </div>
+
+        <div id="account" class="content-section">
+            <!-- Account Content -->
+            
+             <div class="course-card">
+               <div id="accountDataDisplay" style="display: none">
+                <div class="profile-icon">
+                    <span class="material-icons">person_add</span>
+                </div>
+                <p style="margin-top: 80px">اسم المستخدم:</p>
+                <p class="usernameDisplay" id="usernameDisplay">جاري التحميل...</p>
+                <p style="margin-top: 80px">البريد الإلكتروني</p>
+                <p class="usernameDisplay" id="emailDisplay">جاري التحميل...</p>
+                <p style="margin-top: 80px">المعرف الخاص </p>
+                <p class="userIdDisplay" >جاري التحميل...</p>
+              
+                </div>
+                <div id="signUpform" style="display: none">
+                 <input id="username" type="text" placeholder="اسم المستخدم"/>
+                 <input id="email" type="email" placeholder="البريد الإلكتروني"/>
+                 <input id="password" type="password" placeholder="كلمة المرور" />
+                 <button id="createButton" onclick="signUp();">إنشاء حساب</button>
+                 <p class="do-or-not-have-acc" style="color: lightblue" onclick="signUpform.style.display='none'; signInform.style.display = 'flex'">لدي حساب بالفعل</p>
+                 </div>
+                 
+                 <div id="signInform" style="display: flex">
+                  <h2>تسجيل الدخول الى حسابك</h2>
+                 <input id="SignInUsername" type="text" placeholder="اسم المستخدم "/>
+                 <input id="signInPassword" type="password" placeholder="كلمة المرور" />
+                 <button id="createButton" onclick="logIn();">تسجيل الدخول </button>
+                  <p id="logInStatusDisplay"></p>
+                 <p class="do-or-not-have-acc" style="color: lightblue" onclick="signUpform.style.display='flex'; signInform.style.display = 'none'">ليس لدي حساب</p>
+                
+                 </div>
+                </div>
+        </div>
+
+        <!-- Navigation Bar -->
+        <div class="nav-bar">
+            <div class="nav-items">
+                <div class="nav-item active" onclick="switchTab('home')">
+                    <i class="material-icons">home</i>
+                    <span>الرئيسية</span>
+                </div>
+                <div class="nav-item" onclick="switchTab('courses')">
+                    <i class="material-icons">book</i>
+                    <span>دوراتي</span>
+                </div>
+                <div class="nav-item" onclick="switchTab('account')">
+                    <i class="material-icons">person</i>
+                    <span>حسابي</span>
+                </div>
+            </div>
+        </div>
+    </div>
+     <!-- This is the minified production version of Parse JS -->
+   
+    <script>
+        function switchTab(tabId) {
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active-section');
+            });
+
+            // Remove active class from all nav items
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            // Show selected section and mark nav item as active
+            document.getElementById(tabId).classList.add('active-section');
+            event.currentTarget.classList.add('active');
+        }
+    
+    </script>
+     <script>
+        Parse.initialize("QCcPuJ90aJ4GmimNmx5jver6FqOInQamOIQ1Djiq", "xDqKf9VPMg9TbQVpRWoAp5igAzrnJ8qQDFKCUuio"); //PASTE HERE YOUR Back4App APPLICATION ID AND YOUR JavaScript KEY
+        Parse.serverURL = "https://parseapi.back4app.com/";
+        
+        
+         
+
+   function signUp() {
+       // Create a new instance of the user class
+       registryData = {
+         userName: document.getElementById('username').value,
+         email: document.getElementById('email').value,
+         password: document.getElementById('password').value
+       }
+       var user = new Parse.User();
+       user.set("username", registryData.userName);
+       user.set("password", registryData.password);
+       user.set("email", registryData.email);
+  
+       // other fields can be set just like with Parse.Object
+      //user.set("phone", "415-392-0202");
+  
+      user.signUp().then(function(user) {
+          alert('User created successful with name: ' + user.get("username") + ' and email: ' + user.get("email"));
+          signUpform.style.display = "none";
+           // Select all elements with the class "my-elements"
+           const elements = document.querySelectorAll('#usernameDisplay');
+
+          // Loop through and update their content
+          elements.forEach(element => {
+            element.innerHTML = user.get("username");
+          });
+           
+           emailDisplay.innerHTML = user.get("email");
+           
+           accountDataDisplay.style.display = 'block';
+      
+      }).catch(function(error){
+          alert("Error: " + error.code + " " + error.message);
+      });
+  }
+    
+
+   function logIn() {
+       // Create a new instance of the user class
+       loginData = {
+         userName: document.getElementById('SignInUsername').value,
+         password: document.getElementById('signInPassword').value
+       }
+       var user = Parse.User.logIn(loginData.userName, loginData.password).then(function(user) {
+           //alert('User created successful with name: ' + user.get("username") + ' and email: ' + user.get("email"));
+           signInform.style.display = "none";
+           // Select all elements with the class "my-elements"
+           const elements = document.querySelectorAll('#usernameDisplay');
+
+          // Loop through and update their content
+          elements.forEach(element => {
+            element.innerHTML = user.get("username");
+          });
+           
+           emailDisplay.innerHTML = user.get("email");
+           accountDataDisplay.style.display = 'block';
+           userIdDisplay.innerHTML = user.get('freeTrailCoursesLeft');
+       }).catch(function(error){
+           if(error.code == 101){
+             logInStatusDisplay.style.color = "yellow";
+             logInStatusDisplay.style.fontSize = '10px'
+             logInStatusDisplay.innerHTML = 'كلمة المرور أو اسم المستخدم غير صالح '
+           }
+      });
+  }
+  Parse.Cloud.run('hello')
+  .then((result) => {
+    console.log(result); // Output: "Hello from Cloud Code!"
+  })
+  .catch((error) => {
+    console.error('Error:', error);
+  });
+       </script>
+</body>
+</html>
